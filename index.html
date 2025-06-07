@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Наш День Рождения 🎂❤️</title>
+<style>
+  body {
+    background: linear-gradient(to bottom, #fff0f6, #ffe0ec);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 40px;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  #heart-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  #heart {
+    font-size: 120px;
+    color: #e91e63;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  .heart-fall {
+    position: fixed;
+    font-size: 24px;
+    color: #ff4081;
+    pointer-events: none;
+    animation: fall 3s linear forwards;
+    user-select: none;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(600px) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  #message {
+    font-size: 24px;
+    color: #ad1457;
+    margin: 20px 0;
+    min-height: 40px;
+  }
+
+  #shared-birthday {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  #timer {
+    font-size: 20px;
+    color: #880e4f;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="heart-container">
+  <div id="heart">❤️</div>
+</div>
+
+<div id="message"></div>
+<div id="shared-birthday">С Днём рождения нас, Полина 💖 и меня 🎂!</div>
+<div id="timer"></div>
+
+<script>
+  const heart = document.getElementById('heart');
+  const message = document.getElementById('message');
+  const timer = document.getElementById('timer');
+
+  const phrases = [
+    "Полина, ты моё сердечко! 💌",
+    "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
+    "Ты делаешь меня счастливее с каждой минутой 💞",
+    "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
+    "Люблю твой голос, улыбку и твоё сердечко ❤️",
+    "Ты — мой подарок на день рождения ✨"
+  ];
+
+  const startDate = new Date('2025-05-28T00:00:00');
+
+  function createFallingHeart() {
+    const newHeart = document.createElement('div');
+    newHeart.textContent = '💖';
+    newHeart.classList.add('heart-fall');
+    newHeart.style.left = Math.random() * window.innerWidth + 'px';
+    newHeart.style.top = '0px';
+    document.body.appendChild(newHeart);
+    setTimeout(() => newHeart.remove(), 3000);
+  }
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    if (diff < 0) {
+      timer.textContent = 'Скоро начало нашей истории!';
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    timer.textContent = `Вместе уже: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+  }
+
+  function showPhrases(index = 0) {
+    if (index >= phrases.length) index = 0;
+    message.textContent = phrases[index];
+    setTimeout(() => showPhrases(index + 1), 4000);
+  }
+
+  function rainHearts(count = 25) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(createFallingHeart, i * 100);
+    }
+  }
+
+  heart.addEventListener('click', () => {
+    rainHearts(35);
+    updateTimer();
+    showPhrases();
+    setInterval(updateTimer, 1000);
+  });
+
+  // Начальная анимация при загрузке
+  setTimeout(() => {
+    rainHearts(20);
+    message.textContent = "Нажми на сердечко 😉";
+  }, 1000);
+</script>
+
+</body>
+</html>
