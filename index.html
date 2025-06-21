@@ -1,308 +1,377 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <!-- ВАЖНО для мобильников -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Наш День Рождения 🎂❤️</title>
   <style>
-    /* Общие настройки */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      height: 100%;
-      overflow-x: hidden; /* отключаем горизонталку */
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    body {
       background: linear-gradient(to bottom, #fff0f6, #ffe0ec);
-      user-select: none;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      padding: 5vh 5vw;
+      padding: 40px;
+      user-select: none;
+      overflow-x: hidden;
     }
 
-    /* Переменные цвета */
-    :root {
-      --pink: #e91e63;
-      --rose: #ff4081;
-      --dark-rose: #880e4f;
-      --text: #6a1b9a;
+    #heart-container {
+      position: relative;
+      margin-bottom: 20px;
     }
 
-    /* Сердечко */
-    #heart-container { margin-bottom: 4vh; }
     #heart {
-      font-size: clamp(64px, 20vw, 120px);
-      color: var(--pink);
+      font-size: 120px;
+      color: #e91e63;
       cursor: pointer;
       animation: pulse 2s infinite;
-      display: inline-block;
-    }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%     { transform: scale(1.15); }
     }
 
-    /* Падающие сердечки */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
     .heart-fall {
       position: fixed;
       font-size: 24px;
-      color: var(--rose);
+      color: #ff4081;
       pointer-events: none;
-      will-change: transform, opacity;
-      animation: fall 3s ease-out forwards;
-      z-index: 10;
+      animation: fall 3s linear forwards;
+      user-select: none;
     }
+
     @keyframes fall {
-      to {
-        transform: translateY(90vh) scale(0.5);
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(600px) scale(0.5);
         opacity: 0;
       }
     }
 
-    /* Текстовые блоки */
-    #hint {
-      font-size: clamp(16px,4.5vw,22px);
-      color: #ad1457;
-      margin-bottom: 2vh;
-    }
     #message {
-      display: none;
-      font-size: clamp(18px,5vw,24px);
+      font-size: 24px;
       color: #ad1457;
-      min-height: 6vh;
-      margin: 2vh 0;
+      margin: 20px 0;
+      min-height: 40px;
     }
+
     #shared-birthday {
-      display: none;
-      font-size: clamp(20px,6vw,28px);
-      font-weight: bold;
-      color: #d81b60;
-      margin-top: 3vh;
-      animation: fadeIn 2s ease-in-out;
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    display: none;
     }
+    #shared-birthday::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
+    }
+
     #timer {
-      display: none;
-      font-size: clamp(16px,4vw,20px);
-      color: var(--dark-rose);
+      font-size: 20px;
+      color: #880e4f;
       font-weight: 600;
-      margin-top: 2vh;
-    }
-
-    /* Блок с письмом */
-    #letter-container {
-      display: none;
-      margin-top: 5vh;
-      position: relative;
-    }
-    #emoji-envelope {
-      font-size: clamp(60px,18vw,90px);
-      cursor: pointer;
-      transition: transform .2s;
-    }
-    #emoji-envelope:hover {
-      transform: scale(1.1);
-    }
-    #sliding-letter {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80vw;
-      max-width: 300px;
-      height: 0;
-      overflow: hidden;
-      transition: height .8s ease;
-    }
-    .letter-paper {
-      background: #fffafc;
-      border: 2px solid var(--pink);
-      border-radius: 10px;
-      padding: 1.5em;
-      font-size: clamp(14px,4vw,18px);
-      color: var(--text);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Canvas под фейерверки */
-    #fireworks-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
+      margin-top: 10px;
       display: none;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #letter-container {
+      margin-top: 40px;
+      position: relative;
+      display: none;
+    }
+
+    #emoji-envelope {
+      font-size: 90px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 2;
+    }
+
+    #emoji-envelope:hover {
+      transform: scale(1.1);
+    }
+
+    #sliding-letter {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 250px;
+      overflow: hidden;
+      height: 0;
+      transition: height 1s ease;
+      z-index: 1;
+    }
+
+    .letter-paper {
+      background: #fffafc;
+      border: 2px solid #e91e63;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 18px;
+      color: #6a1b9a;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+    }
+
+    #fireworks-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    #shared-birthday {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #d81b60; }
     }
   </style>
 </head>
 <body>
 
-  <div id="heart-container">
-    <div id="heart">❤️</div>
-  </div>
-  <div id="hint">Нажми на сердечко 😉</div>
-  <div id="shared-birthday">С Днём рождения, Полина 💖</div>
-  <div id="message"></div>
-  <div id="timer"></div>
+<div id="heart-container">
+  <div id="heart">❤️</div>
+</div>
 
-  <div id="letter-container">
-    <div id="emoji-envelope">📩</div>
-    <div id="sliding-letter">
-      <div class="letter-paper">
-        Ты моё главное чудо этого дня.<br>
-        Я счастлив, что мы родились в один день 💌
-      </div>
+<div id="message">Нажми на сердечко 😉</div>
+
+<div id="shared-birthday"></div>
+
+<div id="timer"></div>
+
+<div id="letter-container">
+  <div id="emoji-envelope">📩</div>
+  <div id="sliding-letter">
+    <div class="letter-paper">
+      Ты моё главное чудо этого дня.<br>
+      Я счастлив, что мы родились в один день 💌
     </div>
   </div>
+</div>
 
-  <canvas id="fireworks-canvas"></canvas>
+<canvas id="fireworks-canvas"></canvas>
 
-  <script>
-    const heart      = document.getElementById('heart');
-    const hint       = document.getElementById('hint');
-    const birthday   = document.getElementById('shared-birthday');
-    const message    = document.getElementById('message');
-    const timerEl    = document.getElementById('timer');
-    const letterCont = document.getElementById('letter-container');
-    const emojiEnv   = document.getElementById('emoji-envelope');
-    const sliding    = document.getElementById('sliding-letter');
-    const canvas     = document.getElementById('fireworks-canvas');
-    const ctx        = canvas.getContext('2d');
+<script>
+  const heart = document.getElementById('heart');
+  const message = document.getElementById('message');
+  const timer = document.getElementById('timer');
+  const birthday = document.getElementById('shared-birthday');
+  const letter = document.getElementById('letter-container');
+  const emojiEnvelope = document.getElementById('emoji-envelope');
+  const slidingLetter = document.getElementById('sliding-letter');
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx = canvas.getContext('2d');
 
-    // Фразы
-    const phrases = [
-      "Полина, ты моё сердечко! 💌",
-      "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
-      "Ты делаешь меня счастливее с каждой минутой 💞",
-      "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
-      "Люблю твой голос, улыбку и твоё сердечко ❤️",
-      "Ты — мой подарок на день рождения ✨"
-    ];
+  const phrases = [
+    "Полина, ты моё сердечко! 💌",
+    "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
+    "Ты делаешь меня счастливее с каждой минутой 💞",
+    "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
+    "Люблю твой голос, улыбку и твоё сердечко ❤️",
+    "Ты — мой подарок на день рождения ✨"
+  ];
 
-    // Отсчёт с даты
-    const startDate = new Date('2025-05-28T00:00:00');
+  const startDate = new Date('2025-05-28T00:00:00');
 
-    function createFallingHeart() {
-      const h = document.createElement('div');
-      h.textContent = '💖';
-      h.className = 'heart-fall';
-      h.style.left = Math.random()*100 + 'vw';
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(), 3000);
+  function createFallingHeart() {
+    const newHeart = document.createElement('div');
+    newHeart.textContent = '💖';
+    newHeart.classList.add('heart-fall');
+    newHeart.style.left = Math.random() * window.innerWidth + 'px';
+    newHeart.style.top = '0px';
+    document.body.appendChild(newHeart);
+    setTimeout(() => newHeart.remove(), 3000);
+    
+  }
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    if (diff < 0) {
+      timer.textContent = 'Скоро начало нашей истории!';
+      return;
     }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    timer.textContent = `Вместе уже: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+  }
 
-    function rainHearts(n=25) {
-      for(let i=0; i<n; i++){
-        setTimeout(createFallingHeart, i*100);
-      }
-    }
+  function showPhrases(index = 0) {
+    if (index >= phrases.length) index = 0;
+    message.textContent = phrases[index];
+    setTimeout(() => showPhrases(index + 1), 4000);
+  }
 
-    function updateTimer(){
-      const now = Date.now();
-      let diff = now - startDate;
-      if(diff<0){
-        timerEl.textContent = 'Скоро начало нашей истории!';
-        return;
-      }
-      const days    = Math.floor(diff/86400000);
-      const hours   = Math.floor(diff/3600000)%24;
-      const mins    = Math.floor(diff/60000)%60;
-      const secs    = Math.floor(diff/1000)%60;
-      timerEl.textContent = 
-        `Вместе уже: ${days} дн. ${hours} ч. ${mins} мин. ${secs} сек.`;
+  function rainHearts(count = 25) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(createFallingHeart, i * 100);
     }
+  }
+
+function startScene() {
+  if (sceneStarted) return;
+  sceneStarted = true;
+
+  rainHearts(35);
+  message.textContent = '';
+  updateTimer();
+  showPhrases();
+  setInterval(updateTimer, 1000);
+
+  birthday.style.display = 'inline-block';
+  if (!birthdayTyped) {
+    typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
+    birthdayTyped = true;
+  }
+
+  timer.style.display = 'block';
+  letter.style.display = 'block';
+
+  if (!fireworksStarted) {
+    startFireworks();
+    fireworksStarted = true;
+  }
+}
+
+
 
     let sceneStarted = false;
+    let fireworksStarted = false;
+    let birthdayTyped = false;
+  heart.addEventListener('click', startScene);
 
-    function showPhrases(i=0){
-      message.textContent = phrases[i]||'';
-      setTimeout(
-        ()=>showPhrases((i+1)%phrases.length),
-        4000
-      );
+  emojiEnvelope.addEventListener('click', () => {
+    slidingLetter.style.height = '180px';
+  });
+
+  setTimeout(() => {
+    rainHearts(20);
+  }, 1000);
+
+  // Fireworks 🎆
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createFirework() {
+    const x = random(100, canvas.width - 100);
+    const y = random(50, canvas.height / 2);
+    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
+    for (let i = 0; i < 25; i++) {
+      const angle = (Math.PI * 2 * i) / 25;
+      const speed = random(2, 5);
+      particles.push({
+        x,
+        y,
+        dx: Math.cos(angle) * speed,
+        dy: Math.sin(angle) * speed,
+        life: 100,
+        color
+      });
     }
+  }
 
-    // Фейерверки
-    canvas.width = innerWidth; canvas.height = innerHeight;
-    let particles = [];
-
-    function random(min,max){ return Math.random()*(max-min)+min; }
-
-    function createFirework(){
-      const x = random(100,innerWidth-100);
-      const y = random(50,innerHeight/2);
-      const color = `hsl(${~~random(0,360)},100%,60%)`;
-      for(let i=0;i<25;i++){
-        const ang = 2*Math.PI/25*i;
-        const speed = random(2,5);
-        particles.push({
-          x,y,
-          dx: Math.cos(ang)*speed,
-          dy: Math.sin(ang)*speed,
-          life:100,
-          color
-        });
+  function updateFireworks() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      p.dy += 0.05;
+      p.life--;
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
       }
     }
+  }
 
-    function updateFireworks(){
-      ctx.clearRect(0,0,innerWidth,innerHeight);
-      for(let i=particles.length-1;i>=0;i--){
-        const p = particles[i];
-        p.x+=p.dx; p.y+=p.dy; p.dy+=0.05; p.life--;
-        if(p.life<=0) particles.splice(i,1);
-        else{
-          ctx.beginPath();
-          ctx.arc(p.x,p.y,2,0,2*Math.PI);
-          ctx.fillStyle = p.color;
-          ctx.fill();
+  function fireworksLoop() {
+    if (Math.random() < 0.1) {
+      createFirework();
+    }
+    updateFireworks();
+    requestAnimationFrame(fireworksLoop);
+  }
+
+  function startFireworks() {
+    canvas.style.display = 'block';
+    fireworksLoop();
+  }
+
+    function typeWriter(text, elementId, delay = 100) {
+    const el = document.getElementById(elementId);
+    let i = 0;
+    el.textContent = "";
+    function typing() {
+        if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+        setTimeout(typing, delay);
         }
-      }
+    }
+    typing();
     }
 
-    function loopFW(){
-      if(Math.random()<0.1) createFirework();
-      updateFireworks();
-      requestAnimationFrame(loopFW);
-    }
+function adjustFontSize() {
+    const element = document.getElementById('shared-birthday');
+    if (!element) return;
+    const screenWidth = window.innerWidth;
+    const fontSize = screenWidth / 10; // 10% от ширины окна
+    element.style.fontSize = fontSize + 'px';
+  }
 
-    // Запуск сцены
-    heart.addEventListener('click', ()=>{
-      if(sceneStarted) return;
-      sceneStarted = true;
+  window.addEventListener('resize', adjustFontSize);
+  adjustFontSize();  
 
-      hint.style.display    = 'none';
-      birthday.style.display= 'block';
-      message.style.display = 'block';
-      timerEl.style.display = 'block';
-      letterCont.style.display = 'block';
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
 
-      rainHearts(35);
-      showPhrases();
-      updateTimer();
-      setInterval(updateTimer,1000);
-
-      canvas.style.display = 'block';
-      loopFW();
-    });
-
-    // Письмо
-    emojiEnv.addEventListener('click', ()=>{
-      sliding.style.height = sliding.scrollHeight+'px';
-    });
-
-    // При ресайзе
-    window.addEventListener('resize', ()=>{
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-    });
-  </script>
 </body>
 </html>
