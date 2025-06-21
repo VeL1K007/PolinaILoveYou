@@ -1,1 +1,366 @@
-https://github.com/VeL1K007/PolinaILoveYou
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Наш День Рождения 🎂❤️</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fff0f6, #ffe0ec);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 40px;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    #heart-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    #heart {
+      font-size: 120px;
+      color: #e91e63;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .heart-fall {
+      position: fixed;
+      font-size: 24px;
+      color: #ff4081;
+      pointer-events: none;
+      animation: fall 3s linear forwards;
+      user-select: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(600px) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    #message {
+      font-size: 24px;
+      color: #ad1457;
+      margin: 20px 0;
+      min-height: 40px;
+    }
+
+    #shared-birthday {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    display: none;
+    }
+    #shared-birthday::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
+    }
+
+    #timer {
+      font-size: 20px;
+      color: #880e4f;
+      font-weight: 600;
+      margin-top: 10px;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #letter-container {
+      margin-top: 40px;
+      position: relative;
+      display: none;
+    }
+
+    #emoji-envelope {
+      font-size: 90px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 2;
+    }
+
+    #emoji-envelope:hover {
+      transform: scale(1.1);
+    }
+
+    #sliding-letter {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 250px;
+      overflow: hidden;
+      height: 0;
+      transition: height 1s ease;
+      z-index: 1;
+    }
+
+    .letter-paper {
+      background: #fffafc;
+      border: 2px solid #e91e63;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 18px;
+      color: #6a1b9a;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+    }
+
+    #fireworks-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    #shared-birthday {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
+    }
+
+    @keyframes blinkCursor {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #d81b60; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="heart-container">
+  <div id="heart">❤️</div>
+</div>
+
+<div id="message">Нажми на сердечко 😉</div>
+
+<div id="shared-birthday"></div>
+
+<div id="timer"></div>
+
+<div id="letter-container">
+  <div id="emoji-envelope">📩</div>
+  <div id="sliding-letter">
+    <div class="letter-paper">
+      Ты моё главное чудо этого дня.<br>
+      Я счастлив, что мы родились в один день 💌
+    </div>
+  </div>
+</div>
+
+<canvas id="fireworks-canvas"></canvas>
+
+<script>
+  const heart = document.getElementById('heart');
+  const message = document.getElementById('message');
+  const timer = document.getElementById('timer');
+  const birthday = document.getElementById('shared-birthday');
+  const letter = document.getElementById('letter-container');
+  const emojiEnvelope = document.getElementById('emoji-envelope');
+  const slidingLetter = document.getElementById('sliding-letter');
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const phrases = [
+    "Полина, ты моё сердечко! 💌",
+    "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
+    "Ты делаешь меня счастливее с каждой минутой 💞",
+    "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
+    "Люблю твой голос, улыбку и твоё сердечко ❤️",
+    "Ты — мой подарок на день рождения ✨"
+  ];
+
+  const startDate = new Date('2025-05-28T00:00:00');
+
+  function createFallingHeart() {
+    const newHeart = document.createElement('div');
+    newHeart.textContent = '💖';
+    newHeart.classList.add('heart-fall');
+    newHeart.style.left = Math.random() * window.innerWidth + 'px';
+    newHeart.style.top = '0px';
+    document.body.appendChild(newHeart);
+    setTimeout(() => newHeart.remove(), 3000);
+    
+  }
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+    if (diff < 0) {
+      timer.textContent = 'Скоро начало нашей истории!';
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    timer.textContent = `Вместе уже: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+  }
+
+  function showPhrases(index = 0) {
+    if (index >= phrases.length) index = 0;
+    message.textContent = phrases[index];
+    setTimeout(() => showPhrases(index + 1), 4000);
+  }
+
+  function rainHearts(count = 25) {
+    for (let i = 0; i < count; i++) {
+      setTimeout(createFallingHeart, i * 100);
+    }
+  }
+
+function startScene() {
+  if (sceneStarted) return;
+  sceneStarted = true;
+
+  rainHearts(35);
+  message.textContent = '';
+  updateTimer();
+  showPhrases();
+  setInterval(updateTimer, 1000);
+
+  birthday.style.display = 'inline-block';
+  if (!birthdayTyped) {
+    typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
+    birthdayTyped = true;
+  }
+
+  timer.style.display = 'block';
+  letter.style.display = 'block';
+
+  if (!fireworksStarted) {
+    startFireworks();
+    fireworksStarted = true;
+  }
+}
+
+
+
+    let sceneStarted = false;
+    let fireworksStarted = false;
+    let birthdayTyped = false;
+  heart.addEventListener('click', startScene);
+
+  emojiEnvelope.addEventListener('click', () => {
+    slidingLetter.style.height = '180px';
+  });
+
+  setTimeout(() => {
+    rainHearts(20);
+  }, 1000);
+
+  // Fireworks 🎆
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function createFirework() {
+    const x = random(100, canvas.width - 100);
+    const y = random(50, canvas.height / 2);
+    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
+    for (let i = 0; i < 25; i++) {
+      const angle = (Math.PI * 2 * i) / 25;
+      const speed = random(2, 5);
+      particles.push({
+        x,
+        y,
+        dx: Math.cos(angle) * speed,
+        dy: Math.sin(angle) * speed,
+        life: 100,
+        color
+      });
+    }
+  }
+
+  function updateFireworks() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      p.dy += 0.05;
+      p.life--;
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+    }
+  }
+
+  function fireworksLoop() {
+    if (Math.random() < 0.1) {
+      createFirework();
+    }
+    updateFireworks();
+    requestAnimationFrame(fireworksLoop);
+  }
+
+  function startFireworks() {
+    canvas.style.display = 'block';
+    fireworksLoop();
+  }
+
+    function typeWriter(text, elementId, delay = 100) {
+    const el = document.getElementById(elementId);
+    let i = 0;
+    el.textContent = "";
+    function typing() {
+        if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+        setTimeout(typing, delay);
+        }
+    }
+    typing();
+    }
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>
