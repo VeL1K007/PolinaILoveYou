@@ -6,21 +6,12 @@
   <title>Наш День Рождения 🎂❤️</title>
   <style>
     body {
-      background: 
-        radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 192, 203, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 228, 225, 0.4) 0%, transparent 50%),
-        linear-gradient(135deg, #fff5f8 0%, #ffe8ed 50%, #ffd6e1 100%);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
+      background: linear-gradient(to bottom, #fff0f6, #ffe0ec);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
       padding: 40px;
       user-select: none;
       overflow-x: hidden;
-      height: 100vh;
-      overflow-y: hidden;
     }
 
     #heart-container {
@@ -43,7 +34,7 @@
 
     .heart-fall {
       position: fixed;
-      font-size: 28px;
+      font-size: 24px;
       color: #ff4081;
       pointer-events: none;
       animation: fall 3s linear forwards;
@@ -66,40 +57,34 @@
       color: #ad1457;
       margin: 20px 0;
       min-height: 40px;
-      font-weight: 500;
-      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
     }
 
     #shared-birthday {
-      font-size: 28px;
-      font-weight: 600;
-      color: #d81b60;
-      margin-top: 30px;
-      white-space: nowrap;
-      overflow: hidden;
-      position: relative;
-      display: none;
-      text-shadow: 0 1px 3px rgba(255,255,255,0.9);
-      letter-spacing: 0.5px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    display: none;
     }
-    
     #shared-birthday::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      width: 3px;
-      height: 100%;
-      background-color: #d81b60;
-      animation: blinkCursor 0.75s step-end infinite;
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
     }
 
     #timer {
       font-size: 20px;
       color: #880e4f;
-      font-weight: 500;
+      font-weight: 600;
       margin-top: 10px;
       display: none;
-      text-shadow: 0 1px 2px rgba(255,255,255,0.7);
     }
 
     @keyframes fadeIn {
@@ -157,207 +142,20 @@
       z-index: 0;
     }
 
+    #shared-birthday {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d81b60;
+    margin-top: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #d81b60;
+    animation: blinkCursor 0.75s step-end infinite;
+    }
+
     @keyframes blinkCursor {
-      0%, 100% { border-color: transparent; }
-      50% { border-color: #d81b60; }
-    }
-
-    /* Котята стили */
-    .kitten {
-      position: fixed;
-      font-size: 40px;
-      z-index: 10;
-      pointer-events: none;
-      animation: moveKitten 15s linear infinite;
-    }
-
-    .kitten-message {
-      position: absolute;
-      background: #fff;
-      border: 2px solid #ff69b4;
-      border-radius: 20px;
-      padding: 8px 12px;
-      font-size: 14px;
-      color: #d81b60;
-      font-weight: 600;
-      white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      top: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      animation: showMessage 4s ease-in-out;
-      text-shadow: none;
-      letter-spacing: 0.3px;
-    }
-
-    .kitten-message::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 8px solid transparent;
-      border-top-color: #ff69b4;
-    }
-
-    @keyframes moveKitten {
-      0% {
-        transform: translateX(0px) translateY(0px);
-      }
-      25% {
-        transform: translateX(calc(100vw / 4)) translateY(-50px);
-      }
-      50% {
-        transform: translateX(calc(100vw / 2)) translateY(0px);
-      }
-      75% {
-        transform: translateX(calc(100vw * 3 / 4)) translateY(-30px);
-      }
-      100% {
-        transform: translateX(calc(100vw - 60px)) translateY(0px);
-      }
-    }
-
-    @keyframes showMessage {
-      0%, 10% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(10px);
-      }
-      15%, 85% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0px);
-      }
-      90%, 100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
-      }
-    }
-
-    /* Разные траектории для котят */
-    .kitten-path-1 {
-      animation: moveKitten1 12s linear infinite;
-    }
-
-    .kitten-path-2 {
-      animation: moveKitten2 18s linear infinite;
-    }
-
-    .kitten-path-3 {
-      animation: moveKitten3 14s linear infinite;
-    }
-
-    @keyframes moveKitten1 {
-      0% {
-        transform: translateX(0px) translateY(50px);
-      }
-      20% {
-        transform: translateX(calc(100vw / 5)) translateY(20px);
-      }
-      40% {
-        transform: translateX(calc(100vw / 2)) translateY(70px);
-      }
-      60% {
-        transform: translateX(calc(100vw * 3 / 5)) translateY(10px);
-      }
-      80% {
-        transform: translateX(calc(100vw * 4 / 5)) translateY(60px);
-      }
-      100% {
-        transform: translateX(calc(100vw - 60px)) translateY(30px);
-      }
-    }
-
-    @keyframes moveKitten2 {
-      0% {
-        transform: translateX(calc(100vw - 60px)) translateY(80px);
-      }
-      25% {
-        transform: translateX(calc(100vw * 3 / 4)) translateY(40px);
-      }
-      50% {
-        transform: translateX(calc(100vw / 2)) translateY(90px);
-      }
-      75% {
-        transform: translateX(calc(100vw / 4)) translateY(20px);
-      }
-      100% {
-        transform: translateX(0px) translateY(50px);
-      }
-    }
-
-    @keyframes moveKitten3 {
-      0% {
-        transform: translateX(0px) translateY(100px);
-      }
-      30% {
-        transform: translateX(calc(100vw / 3)) translateY(30px);
-      }
-      70% {
-        transform: translateX(calc(100vw * 2 / 3)) translateY(80px);
-      }
-      100% {
-        transform: translateX(calc(100vw - 60px)) translateY(40px);
-      }
-    }
-
-    /* Адаптивность для мобильных устройств */
-    @media (max-width: 768px) {
-      .kitten {
-        font-size: 30px;
-      }
-      
-      .kitten-message {
-        font-size: 12px;
-        padding: 6px 10px;
-        top: -40px;
-      }
-      
-      #shared-birthday {
-        font-size: 22px !important;
-        max-width: 90vw;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      
-      #heart {
-        font-size: 80px;
-      }
-      
-      body {
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      #shared-birthday {
-        font-size: 18px !important;
-        max-width: 95vw;
-      }
-      
-      #message {
-        font-size: 18px;
-      }
-      
-      body {
-        padding: 15px;
-      }
-    }
-
-    @media (max-width: 320px) {
-      #shared-birthday {
-        font-size: 16px !important;
-        max-width: 98vw;
-      }
-      
-      #heart {
-        font-size: 60px;
-      }
-      
-      #message {
-        font-size: 16px;
-      }
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #d81b60; }
     }
   </style>
 </head>
@@ -405,94 +203,17 @@
     "Ты — мой подарок на день рождения ✨"
   ];
 
-  // Романтические сообщения для котят
-  const kittenMessages = [
-    "Я тебя люблю! 💕",
-    "Ты самая лучшая! ⭐",
-    "Моя принцесса! 👑",
-    "Ты прекрасна! 🌹",
-    "Мой ангел! 😇",
-    "Солнышко моё! ☀️",
-    "Ты особенная! ✨",
-    "Моя радость! 🌈",
-    "Любовь моя! 💖",
-    "Ты чудесная! 🦋",
-    "Моя звёздочка! ⭐",
-    "Ты волшебная! 🪄",
-    "Сокровище моё! 💎",
-    "Ты невероятная! 🌟",
-    "Моя мечта! 💭",
-    "Ты удивительная! 🎈",
-    "Единственная! 💝",
-    "Моя вселенная! 🌌"
-  ];
-
-  // Эмодзи котят
-  const kittenEmojis = ['🐱', '😻', '😺', '🐯', '😸', '🙀', '😽', '🐈'];
-
   const startDate = new Date('2025-05-28T00:00:00');
-
-  // Разные виды падающих элементов
-  const fallingElements = ['💖', '💕', '💗', '💓', '💝', '🍰', '🧁', '🍭', '🍬', '🍫', '🌹', '🎀', '✨', '⭐', '🌟'];
 
   function createFallingHeart() {
     const newHeart = document.createElement('div');
-    const randomElement = fallingElements[Math.floor(Math.random() * fallingElements.length)];
-    newHeart.textContent = randomElement;
+    newHeart.textContent = '💖';
     newHeart.classList.add('heart-fall');
     newHeart.style.left = Math.random() * window.innerWidth + 'px';
     newHeart.style.top = '0px';
-    
-    // Случайная анимация (быстрая или медленная)
-    if (Math.random() > 0.5) {
-      newHeart.style.animationDuration = '4s';
-    }
-    
     document.body.appendChild(newHeart);
-    setTimeout(() => newHeart.remove(), 4000);
-  }
-
-  function createKitten() {
-    const kitten = document.createElement('div');
-    const randomEmoji = kittenEmojis[Math.floor(Math.random() * kittenEmojis.length)];
-    const randomMessage = kittenMessages[Math.floor(Math.random() * kittenMessages.length)];
-    const randomPath = Math.floor(Math.random() * 3) + 1;
+    setTimeout(() => newHeart.remove(), 3000);
     
-    kitten.innerHTML = randomEmoji;
-    kitten.classList.add('kitten', `kitten-path-${randomPath}`);
-    
-    // Случайная вертикальная позиция
-    const randomY = Math.random() * (window.innerHeight - 200) + 100;
-    kitten.style.top = randomY + 'px';
-    
-    // Создаем сообщение
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('kitten-message');
-    messageDiv.textContent = randomMessage;
-    kitten.appendChild(messageDiv);
-    
-    document.body.appendChild(kitten);
-    
-    // Удаляем котёнка после анимации
-    const animationDuration = randomPath === 1 ? 12000 : randomPath === 2 ? 18000 : 14000;
-    setTimeout(() => {
-      if (kitten.parentNode) {
-        kitten.remove();
-      }
-    }, animationDuration);
-  }
-
-  function startKittenShow() {
-    // Создаем котят с разными интервалами
-    const createKittenWithDelay = () => {
-      createKitten();
-      // Случайный интервал от 3 до 8 секунд
-      const nextDelay = Math.random() * 5000 + 3000;
-      setTimeout(createKittenWithDelay, nextDelay);
-    };
-    
-    // Начинаем через 2 секунды после запуска сцены
-    setTimeout(createKittenWithDelay, 2000);
   }
 
   function updateTimer() {
@@ -515,69 +236,51 @@
     setTimeout(() => showPhrases(index + 1), 4000);
   }
 
-  function rainHearts(count = 40) {
+  function rainHearts(count = 25) {
     for (let i = 0; i < count; i++) {
-      setTimeout(createFallingHeart, i * 150);
+      setTimeout(createFallingHeart, i * 100);
     }
   }
 
-  function continuousHeartRain() {
-    createFallingHeart();
-    // Случайный интервал от 800ms до 2000ms
-    const nextDelay = Math.random() * 1200 + 800;
-    setTimeout(continuousHeartRain, nextDelay);
+function startScene() {
+  if (sceneStarted) return;
+  sceneStarted = true;
+
+  rainHearts(35);
+  message.textContent = '';
+  updateTimer();
+  showPhrases();
+  setInterval(updateTimer, 1000);
+
+  birthday.style.display = 'inline-block';
+  if (!birthdayTyped) {
+    typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
+    birthdayTyped = true;
   }
 
-  function startScene() {
-    if (sceneStarted) return;
-    sceneStarted = true;
+  timer.style.display = 'block';
+  letter.style.display = 'block';
 
-    rainHearts(50);
-    message.textContent = '';
-    updateTimer();
-    showPhrases();
-    setInterval(updateTimer, 1000);
-
-    birthday.style.display = 'inline-block';
-    if (!birthdayTyped) {
-      typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
-      birthdayTyped = true;
-    }
-
-    timer.style.display = 'block';
-    letter.style.display = 'block';
-
-    if (!fireworksStarted) {
-      startFireworks();
-      fireworksStarted = true;
-    }
-
-    // Запускаем котят
-    if (!kittensStarted) {
-      startKittenShow();
-      kittensStarted = true;
-    }
-
-    // Запускаем непрерывный дождь сердечек и сладостей
-    if (!continuousRainStarted) {
-      setTimeout(continuousHeartRain, 3000);
-      continuousRainStarted = true;
-    }
+  if (!fireworksStarted) {
+    startFireworks();
+    fireworksStarted = true;
   }
+}
 
-  let sceneStarted = false;
-  let fireworksStarted = false;
-  let birthdayTyped = false;
-  let kittensStarted = false;
-  let continuousRainStarted = false;
 
+
+    let sceneStarted = false;
+    let fireworksStarted = false;
+    let birthdayTyped = false;
   heart.addEventListener('click', startScene);
 
   emojiEnvelope.addEventListener('click', () => {
     slidingLetter.style.height = '180px';
   });
 
-  // Убрали автоматические сердечки в начале
+  setTimeout(() => {
+    rainHearts(20);
+  }, 1000);
 
   // Fireworks 🎆
   canvas.width = window.innerWidth;
@@ -639,44 +342,20 @@
     fireworksLoop();
   }
 
-  function typeWriter(text, elementId, delay = 100) {
+    function typeWriter(text, elementId, delay = 100) {
     const el = document.getElementById(elementId);
     let i = 0;
     el.textContent = "";
     function typing() {
-      if (i < text.length) {
+        if (i < text.length) {
         el.textContent += text[i];
         i++;
         setTimeout(typing, delay);
-      }
+        }
     }
     typing();
-  }
-
-  function adjustFontSize() {
-    const element = document.getElementById('shared-birthday');
-    if (!element) return;
-    const screenWidth = window.innerWidth;
-    
-    // Адаптивный размер с учетом разных экранов
-    let fontSize;
-    if (screenWidth <= 320) {
-      fontSize = 16;
-    } else if (screenWidth <= 480) {
-      fontSize = 18;
-    } else if (screenWidth <= 768) {
-      fontSize = 22;
-    } else if (screenWidth <= 1024) {
-      fontSize = Math.min(screenWidth / 20, 30);
-    } else {
-      fontSize = Math.min(screenWidth / 25, 32);
     }
     
-    element.style.fontSize = fontSize + 'px';
-  }
-
-  window.addEventListener('resize', adjustFontSize);
-  adjustFontSize();  
 
   window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
