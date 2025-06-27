@@ -1,367 +1,638 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Наш День Рождения 🎂❤️</title>
-  <style>
-    body {
-      background: linear-gradient(to bottom, #fff0f6, #ffe0ec);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 40px;
-      user-select: none;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наш День Рождения 🎂❤️</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe8ed 50%, #ffd6e1 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            text-align: center;
+            padding: 20px;
+            user-select: none;
+            overflow-x: hidden;
+            min-height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
 
-    #heart-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
+        #click-counter {
+            font-size: 24px;
+            color: #d81b60;
+            font-weight: bold;
+            margin: 20px auto;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            border: 3px solid #ff69b4;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-    #heart {
-      font-size: 120px;
-      color: #e91e63;
-      cursor: pointer;
-      animation: pulse 2s infinite;
-    }
+        #heart {
+            font-size: 120px;
+            color: #e91e63;
+            cursor: pointer;
+            margin: 20px;
+            transition: transform 0.2s ease;
+            animation: pulse 2s infinite;
+        }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
 
-    .heart-fall {
-      position: fixed;
-      font-size: 24px;
-      color: #ff4081;
-      pointer-events: none;
-      animation: fall 3s linear forwards;
-      user-select: none;
-    }
+        #message {
+            font-size: 22px;
+            color: #ad1457;
+            margin: 20px;
+            min-height: 40px;
+            font-weight: 500;
+        }
 
-    @keyframes fall {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(600px) scale(0.5);
-        opacity: 0;
-      }
-    }
+        #shared-birthday {
+            font-size: 24px;
+            font-weight: 600;
+            color: #d81b60;
+            margin: 20px auto;
+            display: none;
+            max-width: 90%;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
 
-    #message {
-      font-size: 24px;
-      color: #ad1457;
-      margin: 20px 0;
-      min-height: 40px;
-    }
+        #timer {
+            font-size: 18px;
+            color: #880e4f;
+            font-weight: 500;
+            margin: 10px auto;
+            display: none;
+            max-width: 90%;
+            word-wrap: break-word;
+        }
 
-    #shared-birthday {
-    font-size: 28px;
-    font-weight: bold;
-    color: #d81b60;
-    margin-top: 30px;
-    white-space: nowrap;
-    overflow: hidden;
-    position: relative;
-    display: none;
-    }
-    #shared-birthday::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    width: 3px;
-    height: 100%;
-    background-color: #d81b60;
-    animation: blinkCursor 0.75s step-end infinite;
-    }
+        #letter-container {
+            margin-top: 40px;
+            position: relative;
+            display: none;
+        }
 
-    #timer {
-      font-size: 20px;
-      color: #880e4f;
-      font-weight: 600;
-      margin-top: 10px;
-      display: none;
-    }
+        #emoji-envelope {
+            font-size: 90px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+        #emoji-envelope:hover {
+            transform: scale(1.1);
+        }
 
-    #letter-container {
-      margin-top: 40px;
-      position: relative;
-      display: none;
-    }
+        #sliding-letter {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 90%;
+            max-width: 250px;
+            overflow: hidden;
+            height: 0;
+            transition: height 1s ease;
+        }
 
-    #emoji-envelope {
-      font-size: 90px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      z-index: 2;
-    }
+        .letter-paper {
+            background: #fffafc;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 18px;
+            color: #6a1b9a;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-    #emoji-envelope:hover {
-      transform: scale(1.1);
-    }
+        .heart-fall {
+            position: fixed;
+            font-size: 28px;
+            color: #ff4081;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
 
-    #sliding-letter {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, 0);
-      width: 250px;
-      overflow: hidden;
-      height: 0;
-      transition: height 1s ease;
-      z-index: 1;
-    }
+        @keyframes fall {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(600px) scale(0.5);
+                opacity: 0;
+            }
+        }
 
-    .letter-paper {
-      background: #fffafc;
-      border: 2px solid #e91e63;
-      border-radius: 10px;
-      padding: 20px;
-      font-size: 18px;
-      color: #6a1b9a;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      animation: fadeIn 1s ease-in;
-    }
+        .kitten {
+            position: fixed;
+            font-size: 40px;
+            z-index: 10;
+            pointer-events: none;
+            animation: moveKitten 15s linear infinite;
+        }
 
-    #fireworks-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-    }
+        .kitten-message {
+            position: absolute;
+            background: #fff;
+            border: 2px solid #ff69b4;
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #d81b60;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: showMessage 4s ease-in-out;
+        }
 
-    #shared-birthday {
-    font-size: 28px;
-    font-weight: bold;
-    color: #d81b60;
-    margin-top: 30px;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid #d81b60;
-    animation: blinkCursor 0.75s step-end infinite;
-    }
+        @keyframes moveKitten {
+            0% { transform: translateX(0px) translateY(0px); }
+            25% { transform: translateX(calc(100vw / 4)) translateY(-50px); }
+            50% { transform: translateX(calc(100vw / 2)) translateY(0px); }
+            75% { transform: translateX(calc(100vw * 3 / 4)) translateY(-30px); }
+            100% { transform: translateX(calc(100vw - 60px)) translateY(0px); }
+        }
 
-    @keyframes blinkCursor {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: #d81b60; }
-    }
-  </style>
+        @keyframes showMessage {
+            0%, 10% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0px); }
+            90%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            #click-counter {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+            
+            #heart {
+                font-size: 80px;
+            }
+            
+            #message {
+                font-size: 18px;
+                max-width: 95%;
+                margin: 15px auto;
+            }
+            
+            #shared-birthday {
+                font-size: 20px;
+                max-width: 95%;
+            }
+            
+            #timer {
+                font-size: 16px;
+                max-width: 95%;
+            }
+            
+            .kitten {
+                font-size: 30px;
+            }
+            
+            .kitten-message {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            #click-counter {
+                font-size: 18px;
+                padding: 10px 15px;
+            }
+            
+            #heart {
+                font-size: 70px;
+            }
+            
+            #message {
+                font-size: 16px;
+                max-width: 98%;
+            }
+            
+            #shared-birthday {
+                font-size: 18px;
+                max-width: 98%;
+            }
+            
+            #timer {
+                font-size: 14px;
+                max-width: 98%;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div id="heart-container">
-  <div id="heart">❤️</div>
-</div>
-
-<div id="message">Нажми на сердечко 😉</div>
-
-<div id="shared-birthday"></div>
-
-<div id="timer"></div>
-
-<div id="letter-container">
-  <div id="emoji-envelope">📩</div>
-  <div id="sliding-letter">
-    <div class="letter-paper">
-      Ты моё главное чудо этого дня.<br>
-      Я счастлив, что мы родились в один день 💌
+    <div id="click-counter">Кликов: 0 ❤️</div>
+    
+    <div id="heart">❤️</div>
+    
+    <div id="message">Нажми на сердечко 😉</div>
+    
+    <div id="shared-birthday"></div>
+    
+    <div id="timer"></div>
+    
+    <div id="letter-container">
+        <div id="emoji-envelope">📩</div>
+        <div id="sliding-letter">
+            <div class="letter-paper">
+                Ты моё главное чудо этого дня.<br>
+                Я счастлив, что мы родились в один день 💌
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<canvas id="fireworks-canvas"></canvas>
+    <canvas id="fireworks-canvas"></canvas>
 
-<script>
-  const heart = document.getElementById('heart');
-  const message = document.getElementById('message');
-  const timer = document.getElementById('timer');
-  const birthday = document.getElementById('shared-birthday');
-  const letter = document.getElementById('letter-container');
-  const emojiEnvelope = document.getElementById('emoji-envelope');
-  const slidingLetter = document.getElementById('sliding-letter');
-  const canvas = document.getElementById('fireworks-canvas');
-  const ctx = canvas.getContext('2d');
+    <script>
+        let heartClickCount = 0;
+        let sceneStarted = false;
+        let fireworksStarted = false;
+        let birthdayTyped = false;
+        let kittensStarted = false;
+        let continuousRainStarted = false;
+        let specialMessageShown = false;
 
-  const phrases = [
-    "Полина, ты моё сердечко! 💌",
-    "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
-    "Ты делаешь меня счастливее с каждой минутой 💞",
-    "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
-    "Люблю твой голос, улыбку и твоё сердечко ❤️",
-    "Ты — мой подарок на день рождения ✨"
-  ];
+        const heart = document.getElementById('heart');
+        const message = document.getElementById('message');
+        const timer = document.getElementById('timer');
+        const birthday = document.getElementById('shared-birthday');
+        const letter = document.getElementById('letter-container');
+        const emojiEnvelope = document.getElementById('emoji-envelope');
+        const slidingLetter = document.getElementById('sliding-letter');
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
 
-  const startDate = new Date('2025-05-28T00:00:00');
+        const clickMessages = [
+            "Первый клик! Ты такая милая 💕",
+            "Два клика! Моё сердце бьётся быстрее 💓",
+            "Три клика! Ты заставляешь меня улыбаться 😊",
+            "Четыре клика! Каждый клик — как поцелуй 💋",
+            "Пять кликов! Ты моя радость 🌈",
+            "Шесть кликов! Люблю твои глазки 👀",
+            "Семь кликов! Счастливое число для нас 🍀",
+            "Восемь кликов! Бесконечность моей любви ∞",
+            "Девять кликов! Почти десятка! 🎯",
+            "Десять кликов! Ты просто идеальна! ⭐",
+            "Одиннадцать! Моя пуся такая упорная 😘",
+            "Двенадцать! Моя жопка не может остановиться 🍑",
+            "Тринадцать! Пиздючка моя любимая 💖",
+            "Четырнадцать! Коза моя сладкая 🐐",
+            "Пятнадцать! Моя булочка пушистая 🥐",
+            "Шестнадцать! Попка моя хорошенькая 🍰",
+            "Семнадцать! Зайка моя прыгучая 🐰",
+            "Восемнадцать! Крошка моя маленькая ✨",
+            "Девятнадцать! Киска моя мурлычущая 🐱",
+            "Двадцать! Малышка моя сладенькая 🍭",
+            "21! Солнышко моё яркое ☀️",
+            "22! Звёздочка моя сияющая ⭐",
+            "23! Лапочка моя нежная 🐾",
+            "24! Ягодка моя сочная 🍓",
+            "25! Конфетка моя сладкая 🍬",
+            "26! Цветочек мой прекрасный 🌸",
+            "27! Принцесса моя королевская 👑",
+            "28! Бусинка моя блестящая 💎",
+            "29! Пёрышко моё лёгкое 🪶",
+            "30! Мармеладка моя вкусная 🍯",
+            "31! Бабочка моя порхающая 🦋",
+            "32! Снежинка моя уникальная ❄️",
+            "33! Искорка моя весёлая ✨",
+            "34! Капелька моя чистая 💧",
+            "35! Рыбка моя золотая 🐠",
+            "36! Птичка моя певучая 🐦",
+            "37! Мышка моя шустренькая 🐭",
+            "38! Хомячок мой пухленький 🐹",
+            "39! Белочка моя рыженькая 🐿️",
+            "40! Пантерка моя грациозная 🐆",
+            "41! Тигрёнок мой полосатенький 🐯",
+            "42! Львёнок мой гривастый 🦁",
+            "43! Мишка мой плюшевый 🐻",
+            "44! Пандочка моя чёрно-белая 🐼",
+            "45! Коала моя сонная 🐨",
+            "46! Енот мой хитренький 🦝",
+            "47! Лисичка моя рыжая 🦊",
+            "48! Волчонок мой серенький 🐺",
+            "49! Единорог мой сказочный 🦄",
+            "50! Половина сотни! Моя дракошка 🐉",
+            "51! Ангелочек мой крылатый 😇",
+            "52! Русалочка моя водная 🧜‍♀️",
+            "53! Феечка моя волшебная 🧚‍♀️",
+            "54! Ведьмочка моя чародейная 🧙‍♀️",
+            "55! Эльфийка моя ушастая 🧝‍♀️",
+            "56! Гномик мой маленький 🏔️",
+            "57! Пиратка моя отважная 🏴‍☠️",
+            "58! Ниндзя моя скрытная 🥷",
+            "59! Самурай мой храбрый ⚔️",
+            "60! Рыцарь мой благородный 🛡️",
+            "61! Королева моя величественная 👸",
+            "62! Богиня моя божественная 🌟",
+            "63! Звезда моя яркая 🌟",
+            "64! Комета моя быстрая ☄️",
+            "65! Планета моя красивая 🪐",
+            "66! Галактика моя бесконечная 🌌",
+            "67! Солнце моё тёплое ☀️",
+            "68! Луна моя загадочная 🌙",
+            "69! Радуга моя цветная 🌈",
+            "70! Облачко моё пушистое ☁️",
+            "71! Дождинка моя прохладная 🌧️",
+            "72! Снежинка моя морозная ❄️",
+            "73! Ветерок мой свежий 🌬️",
+            "74! Молния моя быстрая ⚡",
+            "75! Гром мой громкий ⛈️",
+            "76! Огонёк мой тёплый 🔥",
+            "77! Водичка моя прозрачная 💧",
+            "78! Земелька моя плодородная 🌍",
+            "79! Воздух мой свободный 🌪️",
+            "80! Магия моя волшебная ✨",
+            "81! Чудо моё невероятное 🎭",
+            "82! Сказка моя прекрасная 📚",
+            "83! Мечта моя заветная 💭",
+            "84! Желание моё сокровенное 🌠",
+            "85! Надежда моя светлая 🕯️",
+            "86! Вера моя крепкая ⛪",
+            "87! Любовь моя бесконечная 💖",
+            "88! Счастье моё безграничное 😊",
+            "89! Радость моя безудержная 🎉",
+            "90! Восторг мой неописуемый 🎊",
+            "91! Блаженство моё райское 😍",
+            "92! Упоение моё сладостное 🥰",
+            "93! Нега моя томная 😌",
+            "94! Истома моя сладкая 😘",
+            "95! Экстаз мой безумный 🤤",
+            "96! Эйфория моя головокружительная 🌪️",
+            "97! Трепет мой волнующий 💓",
+            "98! Пыл мой страстный 🔥",
+            "99! Почти сотня! Моя душечка неугомонная 💕",
+            "100! СТО КЛИКОВ! Моя пиздючка самая упорная во вселенной! 🌟💖✨"
+        ];
 
-  function createFallingHeart() {
-    const newHeart = document.createElement('div');
-    newHeart.textContent = '💖';
-    newHeart.classList.add('heart-fall');
-    newHeart.style.left = Math.random() * window.innerWidth + 'px';
-    newHeart.style.top = '0px';
-    document.body.appendChild(newHeart);
-    setTimeout(() => newHeart.remove(), 3000);
-    
-  }
+        const phrases = [
+            "Полина, ты моё сердечко! 💌",
+            "С каждым днём я всё сильнее влюбляюсь в тебя 💗",
+            "Ты делаешь меня счастливее с каждой минутой 💞",
+            "Мы оба родились в этот день — судьба явно была в ударе! 🎉",
+            "Люблю твой голос, улыбку и твоё сердечко ❤️",
+            "Ты — мой подарок на день рождения ✨"
+        ];
 
-  function updateTimer() {
-    const now = new Date();
-    const diff = now - startDate;
-    if (diff < 0) {
-      timer.textContent = 'Скоро начало нашей истории!';
-      return;
-    }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-    timer.textContent = `Вместе уже: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
-  }
+        const kittenMessages = [
+            "Я тебя люблю! 💕", "Ты самая лучшая! ⭐", "Моя принцесса! 👑",
+            "Ты прекрасна! 🌹", "Мой ангел! 😇", "Солнышко моё! ☀️",
+            "Ты особенная! ✨", "Моя радость! 🌈", "Любовь моя! 💖"
+        ];
 
-  function showPhrases(index = 0) {
-    if (index >= phrases.length) index = 0;
-    message.textContent = phrases[index];
-    setTimeout(() => showPhrases(index + 1), 4000);
-  }
+        const kittenEmojis = ['🐱', '😻', '😺', '🐯', '😸', '🙀', '😽', '🐈'];
+        const fallingElements = ['💖', '💕', '💗', '💓', '💝', '🍰', '🧁', '🍭', '🍬', '🍫', '🌹', '🎀', '✨', '⭐', '🌟'];
 
-  function rainHearts(count = 25) {
-    for (let i = 0; i < count; i++) {
-      setTimeout(createFallingHeart, i * 100);
-    }
-  }
+        const startDate = new Date('2025-05-28T00:00:00');
 
-function startScene() {
-  if (sceneStarted) return;
-  sceneStarted = true;
-
-  rainHearts(35);
-  message.textContent = '';
-  updateTimer();
-  showPhrases();
-  setInterval(updateTimer, 1000);
-
-  birthday.style.display = 'inline-block';
-  if (!birthdayTyped) {
-    typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
-    birthdayTyped = true;
-  }
-
-  timer.style.display = 'block';
-  letter.style.display = 'block';
-
-  if (!fireworksStarted) {
-    startFireworks();
-    fireworksStarted = true;
-  }
-}
-
-
-
-    let sceneStarted = false;
-    let fireworksStarted = false;
-    let birthdayTyped = false;
-  heart.addEventListener('click', startScene);
-
-  emojiEnvelope.addEventListener('click', () => {
-    slidingLetter.style.height = '180px';
-  });
-
-  setTimeout(() => {
-    rainHearts(20);
-  }, 1000);
-
-  // Fireworks 🎆
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const particles = [];
-
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  function createFirework() {
-    const x = random(100, canvas.width - 100);
-    const y = random(50, canvas.height / 2);
-    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
-    for (let i = 0; i < 25; i++) {
-      const angle = (Math.PI * 2 * i) / 25;
-      const speed = random(2, 5);
-      particles.push({
-        x,
-        y,
-        dx: Math.cos(angle) * speed,
-        dy: Math.sin(angle) * speed,
-        life: 100,
-        color
-      });
-    }
-  }
-
-  function updateFireworks() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.dx;
-      p.y += p.dy;
-      p.dy += 0.05;
-      p.life--;
-      if (p.life <= 0) {
-        particles.splice(i, 1);
-      } else {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      }
-    }
-  }
-
-  function fireworksLoop() {
-    if (Math.random() < 0.1) {
-      createFirework();
-    }
-    updateFireworks();
-    requestAnimationFrame(fireworksLoop);
-  }
-
-  function startFireworks() {
-    canvas.style.display = 'block';
-    fireworksLoop();
-  }
-
-    function typeWriter(text, elementId, delay = 100) {
-    const el = document.getElementById(elementId);
-    let i = 0;
-    el.textContent = "";
-    function typing() {
-        if (i < text.length) {
-        el.textContent += text[i];
-        i++;
-        setTimeout(typing, delay);
+        function createFallingHeart() {
+            const newHeart = document.createElement('div');
+            const randomElement = fallingElements[Math.floor(Math.random() * fallingElements.length)];
+            newHeart.textContent = randomElement;
+            newHeart.classList.add('heart-fall');
+            newHeart.style.left = Math.random() * window.innerWidth + 'px';
+            newHeart.style.top = '0px';
+            
+            document.body.appendChild(newHeart);
+            setTimeout(() => newHeart.remove(), 3000);
         }
-    }
-    typing();
-    }
-    
 
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-</script>
+        function createKitten() {
+            const kitten = document.createElement('div');
+            const randomEmoji = kittenEmojis[Math.floor(Math.random() * kittenEmojis.length)];
+            const randomMessage = kittenMessages[Math.floor(Math.random() * kittenMessages.length)];
+            
+            kitten.innerHTML = randomEmoji;
+            kitten.classList.add('kitten');
+            
+            const randomY = Math.random() * (window.innerHeight - 200) + 100;
+            kitten.style.top = randomY + 'px';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('kitten-message');
+            messageDiv.textContent = randomMessage;
+            kitten.appendChild(messageDiv);
+            
+            document.body.appendChild(kitten);
+            
+            setTimeout(() => {
+                if (kitten.parentNode) {
+                    kitten.remove();
+                }
+            }, 15000);
+        }
 
+        function startKittenShow() {
+            const createKittenWithDelay = () => {
+                createKitten();
+                const nextDelay = Math.random() * 5000 + 3000;
+                setTimeout(createKittenWithDelay, nextDelay);
+            };
+            setTimeout(createKittenWithDelay, 2000);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff < 0) {
+                timer.textContent = 'Скоро начало нашей истории!';
+                return;
+            }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            timer.textContent = `Вместе уже: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+        }
+
+        function showPhrases(index = 0) {
+            if (index >= phrases.length) index = 0;
+            message.textContent = phrases[index];
+            setTimeout(() => showPhrases(index + 1), 4000);
+        }
+
+        function typeWriter(text, elementId, delay = 100) {
+            const el = document.getElementById(elementId);
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, delay);
+                }
+            }
+            el.textContent = '';
+            type();
+        }
+
+        // Fireworks
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particles = [];
+
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createFirework() {
+            const x = random(100, canvas.width - 100);
+            const y = random(50, canvas.height / 2);
+            const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
+            for (let i = 0; i < 25; i++) {
+                const angle = (Math.PI * 2 * i) / 25;
+                const speed = random(2, 5);
+                particles.push({
+                    x, y,
+                    dx: Math.cos(angle) * speed,
+                    dy: Math.sin(angle) * speed,
+                    life: 100,
+                    color
+                });
+            }
+        }
+
+        function updateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.dx;
+                p.y += p.dy;
+                p.dy += 0.05;
+                p.life--;
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                }
+            }
+        }
+
+        function fireworksLoop() {
+            if (Math.random() < 0.1) {
+                createFirework();
+            }
+            updateFireworks();
+            requestAnimationFrame(fireworksLoop);
+        }
+
+        function startScene() {
+            if (sceneStarted) return;
+            sceneStarted = true;
+
+            // Дождь сердечек
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createFallingHeart, i * 150);
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+
+            birthday.style.display = 'inline-block';
+            if (!birthdayTyped) {
+                typeWriter("С Днём рождения, Полина 💖", "shared-birthday", 120);
+                birthdayTyped = true;
+            }
+
+            timer.style.display = 'block';
+            letter.style.display = 'block';
+
+            if (!fireworksStarted) {
+                canvas.style.display = 'block';
+                fireworksLoop();
+                fireworksStarted = true;
+            }
+
+            if (!kittensStarted) {
+                startKittenShow();
+                kittensStarted = true;
+            }
+
+            // Непрерывный дождь
+            if (!continuousRainStarted) {
+                const continuousHeartRain = () => {
+                    createFallingHeart();
+                    const nextDelay = Math.random() * 1200 + 800;
+                    setTimeout(continuousHeartRain, nextDelay);
+                };
+                setTimeout(continuousHeartRain, 3000);
+                continuousRainStarted = true;
+            }
+        }
+
+        // Главная функция клика
+        heart.onclick = function() {
+            heartClickCount++;
+            
+            // Обновляем счетчик
+            const counterElement = document.getElementById('click-counter');
+            counterElement.textContent = `Кликов: ${heartClickCount} ❤️`;
+            
+            // Показываем сообщения для каждого клика до 100
+            if (heartClickCount <= 100) {
+                const messageIndex = heartClickCount - 1;
+                message.textContent = clickMessages[messageIndex];
+            } else {
+                // После 100 кликов показываем финальное сообщение
+                message.textContent = "Моя пиздючка побила все рекорды! Ты просто невероятная! 🏆💖🎉";
+            }
+            
+            // Падающие сердечки
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFallingHeart, i * 100);
+            }
+            
+            // Анимация сердца
+            heart.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                heart.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Запуск сцены при первом клике
+            if (heartClickCount === 1) {
+                startScene();
+            }
+        };
+
+        // Обработчик письма
+        emojiEnvelope.onclick = function() {
+            slidingLetter.style.height = '180px';
+        };
+    </script>
 </body>
 </html>
